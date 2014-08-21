@@ -64,6 +64,7 @@ define({
 	},
 
 	define_body : function ( define ) {
+		console.log(define.with)
 		return {
 			"class" : define.class_name.wrap,
 			"child" : [
@@ -82,14 +83,16 @@ define({
 		}
 	},
 
-	define_small : function ( define ) { 
-		var definition
+	define_small : function ( define ) {
+		var definition, name
+		name = ( define.option_name ? "data-"+ define.option_name : "data-shumput" )
 		definition = {
-			"type"         : "input",
-			"data-shumput" : define.name,
-			"class"        : define.class_name.small,
-			"value"        : define.with.value || ""
+			"type"  : "input",
+			"class" : define.class_name.small,
+			"value" : define.with.value || ""
 		}
+		definition[name] = define.name
+		
 		if ( define.with.placeholder ) { 
 			definition.placeholder = define.with.placeholder
 		}
