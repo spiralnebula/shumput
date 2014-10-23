@@ -1,9 +1,10 @@
 Shumput
 =======
 
-Input component package. 
-    - Decies when text is to be verified
-    - Verifies text and can return weather its valid or not along with text
+*Input component package*
+
+ - Decies when text is to be verified
+ - Verifies text and can return weather its valid or not along with text
 
 ```javascript
 shumput.make({ 
