@@ -9,5 +9,6 @@ define({
 	package : [
 		"library/morph",
 		"library/transistor",
+		"library/transit",
 	]
 })

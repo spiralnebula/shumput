@@ -6,7 +6,8 @@ define({
 			"morph",
 			"transistor",
 			"event_master",
-			"suggest"
+			"suggest",
+			"transit"
 		],
 	},
 
@@ -27,6 +28,26 @@ define({
 		event_circle.add_listener(
 			this.define_listener( define )
 		)
+
+		if ( define.with.suggest.list.constructor === Object ) { 
+
+			this.library.transit.to({
+				url  : define.with.suggest.list.url,
+				do   : define.with.suggest.list.do,
+				flat : define.with.suggest.list.flat,
+				with : define.with.suggest.list.with,
+				when : {
+					finished : function ( result ) {
+						var list, state
+						list               = define.with.suggest.list.when.finished.call( {}, result )
+						console.log( list )
+						state              = event_circle.get_state()
+						state.suggest.list = list
+						event_circle.set_state( state )
+					}
+				}
+			})
+		}
 
 		return this.define_interface({
 			body         : shumput_body,
@@ -150,6 +171,7 @@ define({
 					} else { 
 						input_body = heard.event.target.parentElement.parentElement.firstChild
 					}
+
 					input_container    = input_body.parentElement
 					option_state       = heard.state
 					new_value          = heard.event.target.getAttribute("data-shumput-choose-suggestion")
@@ -171,8 +193,11 @@ define({
 					input_container    = input_node.parentElement
 					option_state       = heard.state
 					option_state.value = input_node.value
-
-					if ( option_state.suggest ) {
+					console.log( option_state.suggest )
+					
+					if ( option_state.suggest.list.constructor === Array ) {
+						
+						console.log( option_state.suggest )
 
 						if ( input_node.nextSibling !== null ) { 
 							input_container.removeChild( input_node.nextSibling )
@@ -198,7 +223,7 @@ define({
 						}
 					}
 
-					if ( option_state.verify  ) {
+					if ( option_state.verify ) {
 
 						var verification, text_body
 
