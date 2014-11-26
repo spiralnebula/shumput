@@ -64,8 +64,8 @@ define({
 			value          : default_value,
 			original_value : default_value,
 			valid          : ( !define.with.verify ),
-			verify         : define.with.verify  || {},
-			suggest        : define.with.suggest || {}
+			verify         : define.with.verify  || false,
+			suggest        : define.with.suggest || false
 		}
 	},
 
@@ -198,7 +198,7 @@ define({
 						}
 					}
 
-					if ( option_state.verify && option_state.verify.when ) {
+					if ( option_state.verify  ) {
 
 						var verification, text_body
 
