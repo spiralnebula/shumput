@@ -40,7 +40,7 @@ define({
 					finished : function ( result ) {
 						var list, state
 						list               = define.with.suggest.list.when.finished.call( {}, result )
-						console.log( list )
+						
 						state              = event_circle.get_state()
 						state.suggest.list = list
 						event_circle.set_state( state )
@@ -193,11 +193,11 @@ define({
 					input_container    = input_node.parentElement
 					option_state       = heard.state
 					option_state.value = input_node.value
-					console.log( option_state.suggest )
+					
 					
 					if ( option_state.suggest.list.constructor === Array ) {
 						
-						console.log( option_state.suggest )
+						
 
 						if ( input_node.nextSibling !== null ) { 
 							input_container.removeChild( input_node.nextSibling )
