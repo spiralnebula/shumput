@@ -279,11 +279,20 @@
 					c : [1,23,4]
 				}
 			})).toBe(false)	
+		})
 
+		it("knows that two arrays are the same", function() {
+			expect( module.are_these_two_values_the_same({
+				first  : [1,2,4],
+				second : [1,2,4]
+			})).toBe(true)	
+		})
+
+		it("knows that two arrays are the same", function() {
 			expect( module.are_these_two_values_the_same({
 				first  : [1,2,4],
 				second : [1,4]
-			})).toBe(false)
+			})).toBe(false)	
 		})
 	})
 
@@ -439,6 +448,7 @@
 	})
 
 	describe("object loop", function() {
+
 		it("loops through an object with a simple else do", function() {
 			expect(module.object_loop({
 				subject : {
@@ -475,7 +485,7 @@
 			})).toEqual("02s:d04:12b:some14")
 		})
 
-		it("loops through an object with the into", function() {
+		it("loops through an object with the into string", function() {
 			expect(module.object_loop({
 				subject : {
 					s : "d",
@@ -490,6 +500,26 @@
 					}
 				}
 			})).toEqual("somess")
+		})
+
+		it("loops through an object that has empty values and dosent freak out", function() {
+			expect(module.object_loop({
+				subject : {
+					s : "",
+					d : "some",
+					c : "",
+				},
+				else_do : function ( loop ) { 
+					return {
+						key   : loop.key,
+						value : loop.value
+					}
+				}
+			})).toEqual({
+				s : "",
+				d : "some",
+				c : "",
+			})
 		})
 	})
 

@@ -298,44 +298,20 @@
 			sorted_second_array = value.second.slice().sort()
 			return this.index_loop({
 				subject : sorted_first_array,
-				into    : false,
+				into    : true,
 				else_do : function ( loop ) {
-					var are_the_two_values_the_same
-					are_the_two_values_the_same = self.are_these_two_values_the_same({
-						first  : loop.indexed,
-						second : value.second[key_name]
-					})
-					loop.indexed
-					return false
+
+					if ( loop.into === true ) {
+						return self.are_these_two_values_the_same({
+							first  : loop.indexed,
+							second : value.second[loop.index]
+						})
+					}
+
+					return loop.into
+
 				}
 			})
-
-			console.log( value )
-   //    		if ( second_object_keys.length === first_object_keys.length ) {
-   //    			return this.while_greater_than_zero({
-			// 		count   : first_object_keys.length,
-			// 		into    : false,
-			// 		else_do : function ( loop ) {
-
-			// 			var key_name, second_object_has_same_name_key, ascending_index
-						
-			// 			ascending_index                 = first_object_keys.length-loop.count
-			// 			key_name                        = first_object_keys[ascending_index]
-			// 			second_object_has_same_name_key = value.second.hasOwnProperty( key_name )
-
-			// 			if ( second_object_has_same_name_key ) {
-			// 				return self.are_these_two_values_the_same({
-			// 					first  : value.first[key_name],
-			// 					second : value.second[key_name]
-			// 				})
-			// 			}
-
-			// 			return false
-   //    				}
-   //    			})
-			// } else { 
-			// 	return false
-			// }
   		},
 
 
@@ -358,15 +334,11 @@
   				if ( object.hasOwnProperty( property ) ) {
   					var value
   					value = object[property]
-  					if ( value !== null ) { 
-	  					if ( value.constructor === Array ) {
-	  						keys = keys.concat([ value ])
-	  					} else { 
-	  						keys = keys.concat( value )
-	  					}
-	  				} else { 
-	  					return value
-	  				}
+  					if ( value.constructor === Array ) {
+  						keys = keys.concat([ value ])
+  					} else { 
+  						keys = keys.concat( value )
+  					}
   				}
   			}
 
@@ -498,12 +470,14 @@
 			}
 		},
 
+		// im not so sure about the complexity of this here method hnja
 		object_loop : function ( loop ) { 
 			
 			var key, value, self
 			self  = this
 			key   = this.get_the_keys_of_an_object( loop.subject )
 			value = this.get_the_values_of_an_object( loop.subject )
+
 			return this.base_loop({
 				length       : key.length,
 				index        : 0,
@@ -552,9 +526,21 @@
 					return {
 						length       : base_loop.length,
 						map          : {
-							key   : base_loop.map.key.concat(   given.key   || base_loop.map.key ),
-							value : base_loop.map.value.concat( given.value || base_loop.map.value ),
-							into  : given.into || base_loop.map.into
+							key   : base_loop.map.key.concat((
+								given.key !== undefined ? 
+									given.key :
+									base_loop.map.key
+							)),
+							value : base_loop.map.value.concat((
+								given.value !== undefined ? 
+									given.value : 
+									base_loop.map.value
+							)),
+							into  : (
+								given.into !== undefined ?
+									given.into :
+									base_loop.map.into
+							)
 						},
 						index        : base_loop.index + 1,
 						is_done_when : base_loop.is_done_when,
